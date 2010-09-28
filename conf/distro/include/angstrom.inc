@@ -9,7 +9,7 @@ DISTRO_NAME = "Angstrom"
 
 BUILDNAME = "Angstrom ${DISTRO_VERSION}"
 
-TARGET_VENDOR = "-angstrom"
+TARGET_VENDOR ?= "-angstrom"
 
 SOC_FAMILY ?= "Unknown"
 
