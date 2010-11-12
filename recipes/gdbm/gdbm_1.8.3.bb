@@ -4,7 +4,7 @@ SECTION = "libs"
 PRIORITY = "optional"
 LICENSE = "GPL"
 
-PR = "r3"
+PR = "r4"
 
 SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
 	   file://makefile.patch;patch=1 \
@@ -14,9 +14,16 @@ inherit autotools
 
 TARGET_CC_ARCH += "${LDFLAGS}"
 
+do_install_appned(){
+	oe_runmake inslall-compat DESTDIR=${D}
+}
+
 do_stage () {
 	oe_libinstall -so -a libgdbm ${STAGING_LIBDIR}
 	install -m 0644 ${S}/gdbm.h ${STAGING_INCDIR}/
+	oe_libinstall -so -a libgdbm_compat ${STAGING_LIBDIR}
+	install -m 0644 ${S}/dbm.h ${STAGING_INCDIR}/
+	install -m 0644 ${S}/ndbm.h ${STAGING_INCDIR}/
 }
 
 SRC_URI[md5sum] = "1d1b1d5c0245b1c00aff92da751e9aa1"
