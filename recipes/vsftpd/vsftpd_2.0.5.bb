@@ -1,16 +1,15 @@
 DESCRIPTION = "Secure ftp daemon"
 SECTION = "console/network"
 LICENSE = "GPL"
-PR = "r2"
+PR = "r4"
 
 SRC_URI = "ftp://vsftpd.beasts.org/users/cevans/vsftpd-${PV}.tar.gz \
            file://makefile.patch;patch=1 \
            file://nopam.patch;patch=1 \
            file://syscall.patch;patch=1 \
            file://init \
+           file://vsftpd.user_list \
            file://vsftpd.conf"
-
-inherit update-rc.d
 
 do_configure() {
         # Fix hardcoded /usr, /etc, /var mess.
@@ -30,6 +29,7 @@ do_install() {
         oe_runmake 'DESTDIR=${D}' install
         install -d ${D}${sysconfdir}
         install -m 0755 ${WORKDIR}/vsftpd.conf ${D}${sysconfdir}/vsftpd.conf
+        install -m 0755 ${WORKDIR}/vsftpd.user_list ${D}${sysconfdir}/vsftpd.user_list
         install -d ${D}${sysconfdir}/init.d/
         install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/vsftpd
 }
