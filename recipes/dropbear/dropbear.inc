@@ -13,12 +13,13 @@ SRC_URI = "\
   file://fix-2kb-keys.patch;patch=1 \
   file://allow-nopw.patch \
   file://init \
-"
+  file://dropbear_rsa_host_key"
+
 SRC_URI_append_openmoko = "\
   file://default \
 "
 
-inherit autotools update-rc.d
+inherit autotools
 
 INITSCRIPT_NAME = "dropbear"
 INITSCRIPT_PARAMS = "defaults 10"
@@ -45,6 +46,7 @@ do_install() {
 	install -d ${D}${bindir}
 	install -d ${D}${sbindir}
 	install -d ${D}${localstatedir}
+	install -m 0600 ${WORKDIR}/dropbear_rsa_host_key ${D}${sysconfdir}/dropbear
 
 	install -m 0755 dropbearmulti ${D}${sbindir}/
 	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
