@@ -13,8 +13,6 @@ S = "${WORKDIR}/portmap_5beta"
 INITSCRIPT_NAME = "portmap"
 INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
 
-inherit update-rc.d
-
 sbindir = "/sbin"
 
 do_compile() {
