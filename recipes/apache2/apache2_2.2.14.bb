@@ -3,7 +3,7 @@ DESCRIPTION = "The apache v2 web server"
 DEPENDS = "apache2-native openssl expat pcre"
 RDEPENDS += "openssl"
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "http://apache.mirrors.tds.net/httpd/httpd-${PV}.tar.bz2 \
 	   file://apr-sockets-patch;patch=1 \
@@ -26,7 +26,7 @@ S = "${WORKDIR}/httpd-${PV}"
 # update-rc.d adds hooks for rc-update.
 #
 #
-inherit autotools update-rc.d
+inherit autotools
 
 #
 # implications - used by update-rc.d scripts
