@@ -11,7 +11,10 @@ SRC_URI = "http://apache.mirrors.tds.net/httpd/httpd-${PV}.tar.bz2 \
 	   file://server-makefile-patch;patch=1 \
 	   file://configure.in.patch;patch=1 \
 	   file://apr.h.in.patch;patch=1 \
-           file://init"
+	   file://init \
+	   file://httpd.conf \
+	   file://stunnel.pem \
+	   file://httpd-vhosts.conf"
 
 #
 # over-ride needed since apache unpacks into httpd
@@ -35,7 +38,8 @@ LEAD_SONAME = "libapr-1.so.0"
 CONFFILES_${PN} = "${sysconfdir}/${PN}/httpd.conf \
 		   ${sysconfdir}/${PN}/magic \
 		   ${sysconfdir}/${PN}/mime.types \
-		   ${sysconfdir}/init.d/${PN} "
+		   ${sysconfdir}/init.d/${PN} \
+		   ${sysconfdir}/${PN}/extra/httpd-vhosts.conf"
 
 #
 PACKAGES = "${PN}-doc ${PN}-dev ${PN}-dbg ${PN}"
@@ -94,6 +98,11 @@ do_configure() {
 	oe_runconf
 }
 
+do_configure_append() {
+	rm srclib/apr-util/config.log
+	rm config.log
+}
+
 do_compile_prepend() {
 	ln -sf ${S}/srclib/apr/${TARGET_PREFIX}libtool ${S}/srclib/apr/libtool
 }	
@@ -107,6 +116,14 @@ do_install_append() {
 		    -e 's,/etc/,${sysconfdir}/,g' \
 		    -e 's,/usr/,${prefix}/,g' > ${D}/${sysconfdir}/init.d/${PN}
 	chmod 755 ${D}/${sysconfdir}/init.d/${PN}
+# installing the BTicino version of conf file
+	rm -f ${D}/${sysconfdir}/${PN}/httpd.conf
+	install -m 0644 ${WORKDIR}/httpd.conf ${D}${sysconfdir}/${PN}/httpd.conf
+# installing the BTicino SSL certificate
+	install -m 0644 ${WORKDIR}/stunnel.pem ${D}${sysconfdir}/stunnel.pem
+# installing the BTicino version of vhosts.conf file
+	rm -f ${D}/${sysconfdir}/${PN}/extra/httpd-vhosts.conf
+	install -m 0644 ${WORKDIR}/httpd-vhosts.conf ${D}${sysconfdir}/${PN}/extra/httpd-vhosts.conf
 # remove the goofy original files...
 	rm -rf ${D}/${sysconfdir}/${PN}/original
 # Expat should be found in the staging area via DEPENDS...
