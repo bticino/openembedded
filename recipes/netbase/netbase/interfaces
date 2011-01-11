@@ -59,10 +59,10 @@ iface eth1 inet dhcp
 auto usb0
 iface usb0 inet static
        address 192.168.129.1
-       netmask 255.255.255.0
+       netmask 255.255.255.252
        network 192.168.129.0
-       pre-up cd /lib/modules/2.6.32-rc2-davinci1;/sbin/modprobe g_ether;devmem2 0x01c64401 w 0xD0
-       post-down /sbin/modprobe -r g_ether
+       pre-up modprobe g_ether
+       post-down modprobe -r g_ether
 
 #iface usb0 inet static
 #	address 192.168.0.202

@@ -2,7 +2,7 @@ SECTION = "console/network"
 DESCRIPTION = "Internet Software Consortium DHCP package"
 HOMEPAGE = "http://www.isc.org/"
 LICENSE = "BSD"
-INC_PR = "r12"
+INC_PR = "r13"
 
 SRC_URI = "ftp://ftp.isc.org/isc/dhcp/dhcp-3.1-history/dhcp-${PV}.tar.gz \
 	   file://fixincludes.patch;patch=1 \
